@@ -32,17 +32,17 @@ pipeline {
 
         stage('Build') {
             environment {
-                VERSION_SUFFIX = "${sh(script:'if [ "${RELEASE}" = false ] ; then echo -n "${INT_VERSION}"ci:"${BUILD_NUMBER}"; else echo -n "${RELEASE_VERSION}":"${BUILD_NUMBER}"; fi', returnStdout: true)}"
+                VERSION_SUFFIX = "${INT_VERSION}${params.RELEASE ? '' : 'ci'}:${BUILD_NUMBER}"
             }
             steps {
                 echo "Building version: ${INT_VERSION} with suffix: ${VERSION_SUFFIX}"
                 echo 'Mention your Application Build Code here!!!'
                 dir('./java-tomcat-sample') {
-                        bat '''
-                            mvn versions:set -DnewVersion="${VERSION_SUFFIX}"-SNAPSHOT
-                            mvn versions:update-child-modules
-                            mvn clean package
-                        '''
+                    bat '''
+                        mvn versions:set -DnewVersion="${VERSION_SUFFIX}-SNAPSHOT"
+                        mvn versions:update-child-modules
+                        mvn clean package
+                    '''
                 }
             }
         }
@@ -57,6 +57,4 @@ pipeline {
             }
         }
     }
-
-
 }
