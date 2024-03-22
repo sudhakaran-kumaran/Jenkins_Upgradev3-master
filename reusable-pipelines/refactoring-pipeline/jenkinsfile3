@@ -39,19 +39,18 @@ pipeline {
                 echo 'Mention your Application Build Code here!!!'
                 dir('./java-tomcat-sample') {
                     bat '''
-                        mvn versions:set -DnewVersion="${VERSION_SUFFIX}-SNAPSHOT"
-                        mvn versions:update-child-modules
-                        mvn package
+                        mvn clean package
                     '''
                 }
             }
         }
 
         stage('Publish') {
-
-
             steps {
-                archiveArtifacts('**/*.war')
+                dir('./java-tomcat-sample/target') {
+                    // Ensure the target directory is correctly set
+                    archiveArtifacts('*.war')
+                }
             }
         }
     }
