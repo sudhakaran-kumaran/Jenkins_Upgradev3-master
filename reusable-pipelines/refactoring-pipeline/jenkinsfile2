@@ -27,15 +27,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Building version: ${VERSION} with suffix: ${RELEASE_VERSION}"
-                echo 'Mention your Application Build Code here!!!'
-                dir('./java-tomcat-sample') {
-                        bat '''
-                            mvn versions:set -DnewVersion="${VERSION}"-SNAPSHOT
-                            mvn versions:update-child-modules
-                            mvn clean package
-                        '''
+                script {
+                    def newVersion = "${VERSION}-SNAPSHOT" // Concatenate version and suffix
+                    echo "Building version: ${VERSION} with suffix: ${RELEASE_VERSION}"
+                    echo 'Mention your Application Build Code here!!!'
+                    dir('./java-tomcat-sample') {
+                        bat "mvn versions:set -DnewVersion=${newVersion}" // Modify the syntax here
+                        bat 'mvn versions:update-child-modules'
+                        bat 'mvn clean package'
                     }
+                }
             }
         }
     }
