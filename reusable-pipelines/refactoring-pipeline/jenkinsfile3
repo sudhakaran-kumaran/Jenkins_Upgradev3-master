@@ -28,11 +28,7 @@ pipeline {
                     '''
                 }
             }
-             post {
-                    always {
-                        cleanWs()
-                    }
-                }
+
         }
 
         stage('Build') {
@@ -59,4 +55,9 @@ pipeline {
             }
         }
     }
+    post {
+                        always {
+                            cleanWs()
+                        }
+                    }
 }
