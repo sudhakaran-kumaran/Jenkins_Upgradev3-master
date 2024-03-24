@@ -48,7 +48,9 @@ pipeline {
 
         stage('Publish') {
         when{
-        expression {return params.RELEASE}
+        expression {
+        return params.RELEASE
+        }
         }
             steps {
                 dir('./java-tomcat-sample/target') {
