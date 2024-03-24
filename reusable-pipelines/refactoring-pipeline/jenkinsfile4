@@ -42,14 +42,19 @@ pipeline {
         }
 
         stage('Publish') {
-             steps {
-                            dir('./java-tomcat-sample/target') {
-                                // Ensure the target directory is correctly set
-                                archiveArtifacts('*.war')
-                            }
+                when{
+                expression {
+                return params.RELEASE
+                }
+                }
+                    steps {
+                        dir('./java-tomcat-sample/target') {
+                            // Ensure the target directory is correctly set
+                            archiveArtifacts('*.war')
                         }
-        }
-    }
+                    }
+                }
+            }
 
     post {
         always {
