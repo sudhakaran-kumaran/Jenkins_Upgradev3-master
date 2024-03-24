@@ -42,15 +42,12 @@ pipeline {
         }
 
         stage('Publish') {
-            steps {
-                script {
-                    // List contents of the directory
-                    bat 'dir'
-
-                    // Archive artifacts
-                    archiveArtifacts('**/*.war')
-                }
-            }
+             steps {
+                            dir('./java-tomcat-sample/target') {
+                                // Ensure the target directory is correctly set
+                                archiveArtifacts('*.war')
+                            }
+                        }
         }
     }
 
