@@ -40,6 +40,9 @@ pipeline {
                 }
             }
         }
+        stage('Build'){
+          mvn package
+        }
 
         stage('Publish') {
                 when{
@@ -83,6 +86,6 @@ void packageApplication() {
         echo "VERSION_SUFFIX: ${VERSION_SUFFIX}"
         mvn versions:set -DnewVersion="${VERSION_SUFFIX}-SNAPSHOT"
         mvn versions:update-child-modules
-        mvn clean package
+        mvn clean
     '''
 }
