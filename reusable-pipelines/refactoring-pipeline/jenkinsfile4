@@ -40,6 +40,9 @@ pipeline {
                 }
             }
         }
+        stage('Build2'){
+         bat 'mvn package'
+        }
 
 
         stage('Publish') {
@@ -56,6 +59,7 @@ pipeline {
                     }
                 }
             }
+
 
     post {
         always {
@@ -84,6 +88,6 @@ void packageApplication() {
         echo "VERSION_SUFFIX: ${VERSION_SUFFIX}"
         mvn versions:set -DnewVersion="${VERSION_SUFFIX}-SNAPSHOT"
         mvn versions:update-child-modules
-        mvn clean package
+        mvn clean
     '''
 }
