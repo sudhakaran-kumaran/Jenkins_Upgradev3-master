@@ -28,7 +28,7 @@ pipeline {
             }
         }
 
-        stage('Versioning') {
+        stage('Build') {
             environment {
                 VERSION_SUFFIX = getBuildVersion()
             }
@@ -40,12 +40,6 @@ pipeline {
                 }
             }
         }
-        stage('Build'){
-        steps {
-        bat 'mvn package'
-        }
-
-        }
 
         stage('Publish') {
                 when{
@@ -54,18 +48,17 @@ pipeline {
                 }
                 }
                     steps {
-                                    dir('./java-tomcat-sample/target') {
-                                        // Ensure the target directory is correctly set
-                                        archiveArtifacts('*.war')
-                                    }
-                                }
+                        dir('./java-tomcat-sample/target') {
+                            // Ensure the target directory is correctly set
+                            archiveArtifacts('*.war')
+                        }
+                    }
                 }
             }
 
-
     post {
         always {
-           echo "sfsf"
+            cleanWs()
         }
     }
 }
@@ -87,7 +80,9 @@ void auditTools() {
 
 void packageApplication() {
     bat '''
+        echo "VERSION_SUFFIX: ${VERSION_SUFFIX}"
         mvn versions:set -DnewVersion="${VERSION_SUFFIX}-SNAPSHOT"
         mvn versions:update-child-modules
+        mvn clean package
     '''
 }
