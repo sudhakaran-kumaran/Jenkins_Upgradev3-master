@@ -51,7 +51,7 @@ pipeline {
                     steps {
                         dir('./java-tomcat-sample/target') {
                             // Ensure the target directory is correctly set
-                            archiveArtifacts('*.war')
+                            archiveArtifacts('*.jar')
                         }
                     }
                 }
