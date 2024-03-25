@@ -33,7 +33,7 @@ pipeline {
                     dir('./java-tomcat-sample') {
                         bat "mvn versions:set -DnewVersion=${VERSION}-SNAPSHOT" // Modify the syntax here
                         bat 'mvn versions:update-child-modules'
-                        bat 'mvn clean'
+                        bat 'mvn clean package'
                     }
                 }
             }
