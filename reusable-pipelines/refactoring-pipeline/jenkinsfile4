@@ -41,7 +41,7 @@ pipeline {
             }
         }
         stage('Build'){
-          mvn package
+          bat 'mvn package'
         }
 
         stage('Publish') {
